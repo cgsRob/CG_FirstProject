@@ -9,7 +9,8 @@
 
 struct FInputActionValue;
 class UInputAction;
-
+class USpringArmComponent; 
+class UCameraComponent;
 UCLASS()
 class FIRSTPROJECT_API AFPCharacterBase : public ACharacter
 {
@@ -30,6 +31,12 @@ protected:
 	TObjectPtr<UInputAction> LookAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	TObjectPtr<UInputAction> JumpAction;
+
+	// Components. // 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera")
+	TObjectPtr<USpringArmComponent> SpringArm;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera")
+	TObjectPtr<UCameraComponent> Camera;
 
 	// Function to drive movement, bound to input actions.
 	void Move(const FInputActionValue& Value);
