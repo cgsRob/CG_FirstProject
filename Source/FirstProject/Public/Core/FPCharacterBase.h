@@ -31,6 +31,8 @@ protected:
 	TObjectPtr<UInputAction> LookAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	TObjectPtr<UInputAction> JumpAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	TObjectPtr<UInputAction> InteractAction;
 
 	// Components. // 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera")
@@ -42,6 +44,8 @@ protected:
 	void Move(const FInputActionValue& Value);
 	// Function to drive look rotation, bound to input actions.
 	void Look(const FInputActionValue& Value);
+
+	void Interact(); 
 
 public:	
 	// Called every frame

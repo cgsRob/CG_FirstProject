@@ -5,6 +5,7 @@
 #include "EnhancedInputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Actors/FPLamp.h"
 
 // Sets default values
 AFPCharacterBase::AFPCharacterBase()
@@ -57,6 +58,30 @@ void AFPCharacterBase::Look(const FInputActionValue& Value)
 	}
 }
 
+void AFPCharacterBase::Interact()
+{
+	// Varaibles for trace. 
+	FHitResult OutHit;
+	FVector Start = Camera->GetComponentLocation();
+
+	FVector Forward = Camera->GetForwardVector();
+	FVector End = ((Forward * 1000.0f) + Start);
+
+	FCollisionQueryParams CollisionParams;
+
+	// Visualise Trace.
+	DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 1, 0, 1);
+
+	if (GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams))
+	{
+
+		if (AFPLamp* CurrentLamp = Cast<AFPLamp>(OutHit.GetActor()))
+		{
+			CurrentLamp->ToggleLamp();
+		}
+	}
+}
+
 // Called every frame
 void AFPCharacterBase::Tick(float DeltaTime)
 {
@@ -74,8 +99,10 @@ void AFPCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AFPCharacterBase::Look);
 
 		// Note that the Jump function is not being called through AFPCharacterBase, it's making use of the base ACharacter class Jump/StopJump functionality. 
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AFPCharacterBase::Interact);
 	}
 }
 
