@@ -4,19 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Actors/FPMeshActorBase.h"
+#include "Interfaces/Interact.h"
 #include "FPLamp.generated.h"
 
-
-class AFPBomb; 
-class AFPDoor;
 UCLASS()
-class FIRSTPROJECT_API AFPLamp : public AFPMeshActorBase
+class FIRSTPROJECT_API AFPLamp : public AFPMeshActorBase, public IInteract
 {
 	GENERATED_BODY()
 	
 public:
 
 	void ToggleLamp();
+
+	virtual void Interact_Implementation() override;
+
+	virtual bool CanInteract_Implementation() override;
 
 protected:
 
@@ -26,11 +28,9 @@ protected:
 
 	// UPROPERRTY to expose to editor. 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "References")
-	TObjectPtr<AFPDoor> CodeDoorRef;
+	TObjectPtr<AActor> CodeDoorRef;
 
 private:
-	// Example of not exposing to force getting the reference in code.
-	TObjectPtr<AFPBomb> CodeBombRef;
 
 	bool CodeIsOn = false;
 

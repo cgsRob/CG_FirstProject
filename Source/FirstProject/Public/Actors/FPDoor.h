@@ -5,16 +5,22 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "FPMeshActorBase.h"
+#include "Interfaces/Interact.h"
 #include "FPDoor.generated.h"
 
 UCLASS()
-class FIRSTPROJECT_API AFPDoor : public AFPMeshActorBase
+class FIRSTPROJECT_API AFPDoor : public AFPMeshActorBase, public IInteract
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
 	AFPDoor();
+
+	virtual void Interact_Implementation() override;
+
+	virtual bool CanInteract_Implementation() override;
+
 
 protected:
 

@@ -11,6 +11,16 @@ AFPDoor::AFPDoor()
 
 }
 
+void AFPDoor::Interact_Implementation()
+{
+	OpenDoor();
+}
+
+bool AFPDoor::CanInteract_Implementation()
+{
+	return false;
+}
+
 
 void AFPDoor::OpenDoor()
 {

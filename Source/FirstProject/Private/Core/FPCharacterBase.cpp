@@ -5,7 +5,8 @@
 #include "EnhancedInputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Actors/FPLamp.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Interfaces/Interact.h"
 
 // Sets default values
 AFPCharacterBase::AFPCharacterBase()
@@ -75,9 +76,14 @@ void AFPCharacterBase::Interact()
 	if (GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams))
 	{
 
-		if (AFPLamp* CurrentLamp = Cast<AFPLamp>(OutHit.GetActor()))
+		// Full check for valid (non-null Actor) AND has interface. 
+		bool bValidInterface = UKismetSystemLibrary::DoesImplementInterface(OutHit.GetActor(), UInteract::StaticClass());
+		// Only check if Actor has Interface. Will need a null ptr check on Actor before use. Useful if you've already confirmed Actor validity elsewhere. 
+		//bool bValidInterface = OutHit.GetActor()->GetClass()->ImplementsInterface(UInteract::StaticClass());
+
+		if (bValidInterface)
 		{
-			CurrentLamp->ToggleLamp();
+			IInteract::Execute_Interact(OutHit.GetActor());
 		}
 	}
 }
