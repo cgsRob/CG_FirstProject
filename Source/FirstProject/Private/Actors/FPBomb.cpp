@@ -1,10 +1,23 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Actors/FPBomb.h"
+#include "Actors/FPLamp.h"
+
+void AFPBomb::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (LampRefCpp)
+	{
+		LampRefCpp->OnLightSwitchedOnDelegate.AddUniqueDynamic(this, &AFPBomb::StartIgnite);
+	}
+}
 
 void AFPBomb::StartIgnite()
 {
+	if (HasBeenIgnited)
+		return; 
+
 	// Hint at ignition starting
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("FzzzzZZZzz!"));

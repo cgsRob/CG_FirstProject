@@ -1,7 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Actors/FPDoor.h"
+#include "Actors/FPLamp.h"
+
+void AFPDoor::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (LampRefCpp)
+	{
+		LampRefCpp->OnLightSwitchedOnDelegate.AddDynamic(this, &AFPDoor::OpenDoor);
+	}
+}
 
 // Sets default values
 AFPDoor::AFPDoor()
@@ -24,6 +34,11 @@ bool AFPDoor::CanInteract_Implementation()
 
 void AFPDoor::OpenDoor()
 {
+	if (IsOpen)
+		return;
+
 	SetActorRotation(RotationTarget);
+
+	IsOpen = true; 
 }
 

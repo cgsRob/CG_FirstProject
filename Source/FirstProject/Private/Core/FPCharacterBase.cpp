@@ -61,6 +61,10 @@ void AFPCharacterBase::Look(const FInputActionValue& Value)
 
 void AFPCharacterBase::Interact()
 {
+
+	if (!bRunCppInput)
+		return; 
+
 	// Varaibles for trace. 
 	FHitResult OutHit;
 	FVector Start = Camera->GetComponentLocation();

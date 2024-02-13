@@ -20,30 +20,9 @@ void AFPLamp::ToggleLamp()
 	// Toggle emissive strength. 
 	CodeMaterialInst->SetScalarParameterValue("EmissiveStrength", CodeIsOn ? 20.0f : 0.0f);
 
-	if (CodeDoorRef)
+	if (CodeIsOn)
 	{
-		// Open door.
-		if (UKismetSystemLibrary::DoesImplementInterface(CodeDoorRef, UInteract::StaticClass()))
-		{
-			IInteract::Execute_Interact(CodeDoorRef);
-		}
-		// Remove Ref
-		CodeDoorRef = nullptr;
-	}
-
-	// Find all potential bombs.	
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsWithInterface(GetWorld(), UInteract::StaticClass(), FoundActors);
-
-	for (auto FoundActor : FoundActors)
-	{
-		if (UKismetSystemLibrary::DoesImplementInterface(FoundActor, UInteract::StaticClass()))
-		{
-			if (IInteract::Execute_CanInteract(FoundActor))
-			{
-				IInteract::Execute_Interact(FoundActor);
-			}
-		}
+		OnLightSwitchedOnDelegate.Broadcast();
 	}	
 }
 
