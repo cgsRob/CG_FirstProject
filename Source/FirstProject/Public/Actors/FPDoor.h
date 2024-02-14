@@ -18,27 +18,26 @@ public:
 	// Sets default values for this actor's properties
 	AFPDoor();
 
-	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Actor Reference")
-	TObjectPtr<AFPLamp> LampRefCpp;
-
 	virtual void Interact_Implementation() override;
 
 	virtual bool CanInteract_Implementation() override;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void OpenDoor();
+
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category ="Rotation")
-	FRotator RotationTarget;
-
-public:	
-
-	UFUNCTION()
-	void OpenDoor();
+	virtual void BeginPlay() override;
 
 private: 
 
+	UPROPERTY(BlueprintReadOnly, Category = "Rotation", meta = (AllowPrivateAccess = "true"))
 	bool IsOpen = false; 
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Actor Reference", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<AFPLamp> LampRefCpp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Rotation", meta = (AllowPrivateAccess = "true"))
+	FRotator RotationTarget;
 
 };

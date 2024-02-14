@@ -7,29 +7,25 @@ void AFPBomb::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Get Material Instance to edit. 
+	CodeMaterialInst = MeshComp->CreateDynamicMaterialInstance(0);
+
 	if (LampRefCpp)
 	{
-		LampRefCpp->OnLightSwitchedOnDelegate.AddUniqueDynamic(this, &AFPBomb::StartIgnite);
+		LampRefCpp->OnLightSwitchedOnDelegate.AddUniqueDynamic(this, &AFPBomb::Interact);
 	}
 }
 
-void AFPBomb::StartIgnite()
+void AFPBomb::StartIgnite_Implementation()
 {
-	if (HasBeenIgnited)
-		return; 
-
-	// Hint at ignition starting
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("FzzzzZZZzz!"));
-
-	// Call Explode after time.
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &AFPBomb::Explode, 2.0f, false);
-
 	HasBeenIgnited = true;
 }
 
 void AFPBomb::Interact_Implementation()
 {
+	if (HasBeenIgnited)
+		return;
+
 	StartIgnite();
 }
 

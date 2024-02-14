@@ -11,19 +11,16 @@ void AFPLamp::BeginPlay()
 	CodeMaterialInst = MeshComp->CreateDynamicMaterialInstance(0);
 }
 
-
 void AFPLamp::ToggleLamp()
 {
 	// toggle isOn. 
-	CodeIsOn = !CodeIsOn;
+	IsOn = !IsOn;
 
 	// Toggle emissive strength. 
-	CodeMaterialInst->SetScalarParameterValue("EmissiveStrength", CodeIsOn ? 20.0f : 0.0f);
-
-	if (CodeIsOn)
-	{
-		OnLightSwitchedOnDelegate.Broadcast();
-	}	
+	CodeMaterialInst->SetScalarParameterValue("EmissiveStrength", IsOn ? 20.0f : 0.0f);
+	
+	OnLightSwitchedOnDelegate.Broadcast();
+		
 }
 
 void AFPLamp::Interact_Implementation()

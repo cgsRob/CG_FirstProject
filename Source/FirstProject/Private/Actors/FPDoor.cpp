@@ -3,6 +3,14 @@
 #include "Actors/FPDoor.h"
 #include "Actors/FPLamp.h"
 
+// Sets default values
+AFPDoor::AFPDoor()
+{
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = false;
+
+}
+
 void AFPDoor::BeginPlay()
 {
 	Super::BeginPlay();
@@ -11,14 +19,6 @@ void AFPDoor::BeginPlay()
 	{
 		LampRefCpp->OnLightSwitchedOnDelegate.AddDynamic(this, &AFPDoor::OpenDoor);
 	}
-}
-
-// Sets default values
-AFPDoor::AFPDoor()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
-
 }
 
 void AFPDoor::Interact_Implementation()
@@ -31,14 +31,8 @@ bool AFPDoor::CanInteract_Implementation()
 	return false;
 }
 
-
-void AFPDoor::OpenDoor()
+void AFPDoor::OpenDoor_Implementation()
 {
-	if (IsOpen)
-		return;
-
-	SetActorRotation(RotationTarget);
-
-	IsOpen = true; 
+	IsOpen = !IsOpen; 
 }
 

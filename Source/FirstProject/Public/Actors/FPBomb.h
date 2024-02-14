@@ -18,26 +18,31 @@ class FIRSTPROJECT_API AFPBomb : public AFPMeshActorBase, public IInteract
 
 public:
 
-	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Actor Reference")
-	TObjectPtr<AFPLamp> LampRefCpp;
-
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void StartIgnite();
-
-	bool HasBeenIgnited = false;
 
 	virtual void Interact_Implementation() override;
 
 	virtual bool CanInteract_Implementation() override;
 
+protected: 
+	
+	virtual void BeginPlay() override;
 
 private:
 
-	UFUNCTION()
-	void Explode();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ignition", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UMaterialInstanceDynamic> CodeMaterialInst;
 
-	FTimerHandle TimerHandle;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Actor Reference", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<AFPLamp> LampRefCpp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ignition", meta = (AllowPrivateAccess = "true"))
+	float IgniteDuration = 2.0f;
+
+	bool HasBeenIgnited = false;	
+
+	UFUNCTION(BlueprintCallable)
+	void Explode();	
 
 };
