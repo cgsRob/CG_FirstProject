@@ -4,11 +4,20 @@
 #include "Actors/FPLamp.h"
 #include "Kismet/GameplayStatics.h"
 
+
+
 void AFPLamp::BeginPlay()
 {
 	Super::BeginPlay();
 	// Get Material Instance to edit. 
 	CodeMaterialInst = MeshComp->CreateDynamicMaterialInstance(0);
+
+	MeshComp->OnComponentBeginOverlap.AddDynamic(this, &AFPLamp::OverlapBegin);
+}
+
+void AFPLamp::OverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	ToggleLamp();
 }
 
 void AFPLamp::ToggleLamp()
