@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Actors/FPDoor.h"
+
+#include "NiagaraComponent.h"
 #include "Actors/FPLamp.h"
+
 
 // Sets default values
 AFPDoor::AFPDoor()
@@ -9,6 +12,8 @@ AFPDoor::AFPDoor()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	DustEffectComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Dust Particle"));
+	DustEffectComponent->SetupAttachment(GetRootComponent());
 }
 
 void AFPDoor::BeginPlay()
@@ -33,6 +38,9 @@ bool AFPDoor::CanInteract_Implementation()
 
 void AFPDoor::OpenDoor_Implementation()
 {
-	IsOpen = !IsOpen; 
+	IsOpen = !IsOpen;
+
+	AudioComponent->Sound = IsOpen ? DoorOpenSound : DoorCloseSound;
+	AudioComponent->Play();
 }
 

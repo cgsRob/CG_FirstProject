@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/AudioComponent.h"
 #include "FPMeshActorBase.generated.h"
 
 UCLASS()
@@ -21,6 +22,8 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh")
 	TObjectPtr<UStaticMeshComponent> MeshComp;
+	
+	TObjectPtr<UAudioComponent> AudioComponent;
 
 public:	
 	// Called every frame

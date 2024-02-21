@@ -4,8 +4,6 @@
 #include "Actors/FPLamp.h"
 #include "Kismet/GameplayStatics.h"
 
-
-
 void AFPLamp::BeginPlay()
 {
 	Super::BeginPlay();
@@ -28,8 +26,10 @@ void AFPLamp::ToggleLamp()
 	// Toggle emissive strength. 
 	CodeMaterialInst->SetScalarParameterValue("EmissiveStrength", IsOn ? 20.0f : 0.0f);
 	
-	OnLightSwitchedOnDelegate.Broadcast();
-		
+	AudioComponent->Sound = IsOn ? LampOnSound : LampOffSound;
+	AudioComponent->Play();
+	
+	OnLightSwitchedOnDelegate.Broadcast();		
 }
 
 void AFPLamp::Interact_Implementation()

@@ -10,13 +10,17 @@
 /**
  * 
  */
+class UNiagaraComponent;
 class AFPLamp; 
+class UNiagaraSystem;
 UCLASS()
 class FIRSTPROJECT_API AFPBomb : public AFPMeshActorBase, public IInteract
 {
 	GENERATED_BODY()
 
 public:
+
+	AFPBomb();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void StartIgnite();
@@ -36,6 +40,18 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Actor Reference", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<AFPLamp> LampRefCpp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Particle", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UNiagaraComponent> SparkEffectComponent;
+	
+	UPROPERTY(EditAnywhere, Category = "Explosion", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UNiagaraSystem> ExplosionEffect;
+
+	// - AUDIO - // 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USoundBase> ExplosionSound;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+    TObjectPtr<USoundBase> FuseSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ignition", meta = (AllowPrivateAccess = "true"))
 	float IgniteDuration = 2.0f;

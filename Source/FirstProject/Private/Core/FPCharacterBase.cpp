@@ -40,8 +40,8 @@ void AFPCharacterBase::Move(const FInputActionValue& Value)
 	if (MoveVector.Length() != 0.0f)
 	{
 		// Move Along an axis. Input Action needs Swizzle for Y. 
-		AddMovementInput(GetActorForwardVector() * MoveVector.X);
-		AddMovementInput(GetActorRightVector() * MoveVector.Y);
+		AddMovementInput(GetActorForwardVector(), MoveVector.X);
+		AddMovementInput(GetActorRightVector(), MoveVector.Y);
 	}
 }
 

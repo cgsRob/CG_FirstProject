@@ -2,6 +2,15 @@
 
 #include "Actors/FPBomb.h"
 #include "Actors/FPLamp.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Kismet/GameplayStatics.h"
+
+AFPBomb::AFPBomb()
+{
+	SparkEffectComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Dust Particle"));
+	SparkEffectComponent->SetupAttachment(GetRootComponent());
+}
 
 void AFPBomb::BeginPlay()
 {
@@ -19,6 +28,8 @@ void AFPBomb::BeginPlay()
 void AFPBomb::StartIgnite_Implementation()
 {
 	HasBeenIgnited = true;
+	AudioComponent->Sound = FuseSound;
+	AudioComponent->Play();
 }
 
 void AFPBomb::Interact_Implementation()
@@ -36,9 +47,17 @@ bool AFPBomb::CanInteract_Implementation()
 
 void AFPBomb::Explode()
 {
-	// Hint at explosion.
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("boom!"));
+	if (ExplosionEffect)
+	{		
+		const FVector ActorLocation = GetActorLocation(); 
+		const FVector SpawnLocation = FVector(ActorLocation.X, ActorLocation.Y, ActorLocation.Z + MeshComp->Bounds.BoxExtent.Z / 2);
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ExplosionEffect, SpawnLocation);
+	}
+	if (ExplosionSound)
+	{
+		AudioComponent->Stop();
+		UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, GetActorLocation());
+	}
 
 	// Destroy
 	Destroy();

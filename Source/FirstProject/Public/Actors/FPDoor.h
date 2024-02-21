@@ -7,6 +7,7 @@
 #include "Interfaces/Interact.h"
 #include "FPDoor.generated.h"
 
+class UNiagaraComponent;
 class AFPLamp; 
 UCLASS()
 class FIRSTPROJECT_API AFPDoor : public AFPMeshActorBase, public IInteract
@@ -39,5 +40,15 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Rotation", meta = (AllowPrivateAccess = "true"))
 	FRotator RotationTarget;
+
+	// - AUDIO - // 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Audio", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USoundBase> DoorOpenSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Audio", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USoundBase> DoorCloseSound;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Particle", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UNiagaraComponent> DustEffectComponent;
+	
 
 };

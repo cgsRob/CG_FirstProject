@@ -11,6 +11,9 @@ AFPMeshActorBase::AFPMeshActorBase()
 
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Comp"));
 	RootComponent = MeshComp;
+
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio Comp"));
+	AudioComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned

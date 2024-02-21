@@ -39,4 +39,10 @@ private:
 
 	void ToggleLamp();
 
+	// - AUDIO - // 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Audio", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USoundBase> LampOnSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Audio", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USoundBase> LampOffSound;
+
 };
